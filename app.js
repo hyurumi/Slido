@@ -8,6 +8,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
+
 var app = express();
 
 app.configure(function(){
@@ -28,7 +29,16 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// load modules
+['dist', 'plusview'].forEach(function(routeName) {
+  var routeObject = require('./routes/' + routeName);
+  routes[routeName] = routeObject[routeName];
+});
+
 app.get('/', routes.index);
+app.get('/dist', routes.dist);
+app.get('/plusview', routes.plusview);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

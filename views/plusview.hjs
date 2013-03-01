@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Slido</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="stylesheets/normalize.css">
+        <link rel="stylesheet" href="stylesheets/main.css">
+        <script src="javascripts/vendor/modernizr-2.6.2.min.js"></script>
+        <script type="text/template" id="slide-title-template">
+        <div class="slide">
+            <div class='header'>
+                <p class='element'> <%= header %></p>
+            </div>
+            <div class='body'>
+                <p class='element'><%= body %></p>
+            </div>
+        </div>
+        </script>
+        <script type="text/template" id="slide-standard-template">
+        <div class="slide">
+            <div class='header'>
+                <p class='element'><%= header %></p>
+            </div>
+            <div class='body'>
+                <p class='element'><%= body %></p>
+            </div>
+        </div>
+        </script>
+        <script type="text/template" id="slide-placeholder-template">
+        <div class="slide slide-placeholder">
+            <div class='header'>Add New Slide</div>
+        </div>
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <a href="#/overview">Overview</a>
+            <a href="#/publish">Publish</a>
+        </div>
+        <div id="wrapper">
+            <div id="slides" class='slides  clearfix'>
+                
+            </div>
+        </div>
+
+        <script src="javascripts/vendor/jquery-1.9.0.min.js"></script>
+        <script src="javascripts/vendor/socket.io.js"></script>
+        <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
+        <script src="http://underscorejs.org/underscore.js"></script>
+        <script src="javascripts/vendor/mustache.js"></script>
+        <script src="javascripts/main.js"></script>
+        <script type="text/javascript">
+          Slido.initialize();
+        </script>
+    </body>
+</html>
