@@ -35,20 +35,10 @@
             </div>
         </div>
         </script>
-        <script type="text/template" id="slide-placeholder-template">
-        <div class="slide slide-placeholder">
-            <div class='header'>Add New Slide</div>
-        </div>
-        </script>
     </head>
     <body>
-        <div id="header">
-            <a href="#/overview">Overview</a>
-            <a href="#/publish">Publish</a>
-        </div>
         <div id="wrapper">
             <div id="slides" class='slides  clearfix'>
-                
             </div>
         </div>
 
