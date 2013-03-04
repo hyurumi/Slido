@@ -15,16 +15,6 @@
         <link rel="stylesheet" href="stylesheets/normalize.css">
         <link rel="stylesheet" href="stylesheets/dist.css">
         <script src="javascripts/vendor/modernizr-2.6.2.min.js"></script>
-        <script type="text/template" id="slide-title-template">
-        <div class="slide">
-            <div class='header'>
-                <p class='element'> <%= header %></p>
-            </div>
-            <div class='body'>
-                <p class='element'><%= body %></p>
-            </div>
-        </div>
-        </script>
         <script type="text/template" id="slide-standard-template">
         <div class="slide">
             <div class='header'>
@@ -68,7 +58,6 @@
         </div>
     </div>
 
-        <script src="javascripts/vendor/jquery-1.9.0.min.js"></script>
         <script src="javascripts/vendor/socket.io.js"></script>
         <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
         <script src="http://underscorejs.org/underscore.js"></script>

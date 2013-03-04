@@ -1,4 +1,4 @@
-var Slido = (function(window, _, io){
+var Slido = (function(window, _){
 
   'use strict';
 
@@ -427,4 +427,4 @@ var Slido = (function(window, _, io){
     initialize : initialize
   };
 
-})(window, _, io);
+})(window, _);

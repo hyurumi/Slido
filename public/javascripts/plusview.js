@@ -119,13 +119,10 @@ var Slido = (function(window, _, io){
       }
     }
    }
-
    function onDocumentClick(){
     nextSlide();
    }
-
    function nextSlide(){
-     socket.emit('nextSlide',{currentSlide: currentSlide});
      if (currentSlide < dom.slides.children.length - 1){
        currentSlide++;
      } else {
@@ -171,13 +168,21 @@ var Slido = (function(window, _, io){
     layout();
   }
 
-
   // --------------------------------------------------------------------//
   // ----------------------- SOCKET EVENTS ------------------------------//
   // --------------------------------------------------------------------//
   socket.on('connect', function(){
     console.log('open');
   });
+
+  socket.on('nextSlide', function(dataObject){
+    console.log('hoge')
+    currentSlide = dataObject.currentSlide;
+    nextSlide();
+  });
+
+
+
   // --------------------------------------------------------------------//
   // ---------------------------- LIBRARIES -----------------------------//
   // --------------------------------------------------------------------//

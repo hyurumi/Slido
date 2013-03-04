@@ -13,7 +13,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <link rel="stylesheet" href="stylesheets/normalize.css">
-        <link rel="stylesheet" href="stylesheets/main.css">
+        <link rel="stylesheet" href="stylesheets/plusview.css">
         <script src="javascripts/vendor/modernizr-2.6.2.min.js"></script>
         <script type="text/template" id="slide-title-template">
         <div class="slide">
@@ -35,11 +35,6 @@
             </div>
         </div>
         </script>
-        <script type="text/template" id="slide-placeholder-template">
-        <div class="slide slide-placeholder">
-            <div class='header'>Add New Slide</div>
-        </div>
-        </script>
     </head>
     <body>
         <div id="header">
@@ -47,17 +42,40 @@
             <a href="#/publish">Publish</a>
         </div>
         <div id="wrapper">
-            <div id="slides" class='slides  clearfix'>
-                
-            </div>
+             <div id="slides" class='slides  clearfix' style='display:none'>
+            {{#slides}}
+                <div class="slides-pack">
+                    <div class="slide-wrapper">
+                {{#slideTitle}}
+                <div class="slide slide-title">
+                    <div class='header'>
+                        <p class='element'> {{ header}} </p>
+                    </div>
+                    <div class='body'>
+                        <p class='element'> {{body}} </p>
+                    </div>
+                </div>
+                {{/slideTitle}}
+                {{#slideStandard}}
+                <div class="slide">
+                    <div class='header'>
+                        <p class='element'> {{ header}} </p>
+                    </div>
+                    <div class='body'>
+                        <p class='element'> {{ body }}</p>
+                    </div>
+                </div>      
+                {{/slideStandard}}
+                </div>
+                </div>
+            {{/slides}}
+        </div>
         </div>
 
-        <script src="javascripts/vendor/jquery-1.9.0.min.js"></script>
         <script src="javascripts/vendor/socket.io.js"></script>
         <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
         <script src="http://underscorejs.org/underscore.js"></script>
-        <script src="javascripts/vendor/mustache.js"></script>
-        <script src="javascripts/main.js"></script>
+        <script src="javascripts/plusview.js"></script>
         <script type="text/javascript">
           Slido.initialize();
         </script>

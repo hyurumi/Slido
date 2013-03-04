@@ -53,8 +53,6 @@
             </div>
         </div>
 
-        <script src="javascripts/vendor/jquery-1.9.0.min.js"></script>
-        <script src="javascripts/vendor/socket.io.js"></script>
         <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
         <script src="http://underscorejs.org/underscore.js"></script>
         <script src="javascripts/index.js"></script>
