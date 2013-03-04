@@ -45,6 +45,7 @@
         <div id="header">
             <a href="#/overview">Overview</a>
             <a href="#/publish">Publish</a>
+            <div class="message"><a class="messagecontent"> </a></div>
         </div>
         <div id="wrapper">
             <div id="slides" class='slides  clearfix'>

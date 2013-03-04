@@ -37,10 +37,36 @@
         </script>
     </head>
     <body>
-        <div id="wrapper">
-            <div id="slides" class='slides  clearfix'>
-            </div>
+    <div id="wrapper">
+        <div id="slides" class='slides  clearfix' style='display:none'>
+            {{#slides}}
+                <div class="slides-pack">
+                    <div class="slide-wrapper">
+                {{#slideTitle}}
+                <div class="slide slide-title">
+                    <div class='header'>
+                        <p class='element'> {{ header}} </p>
+                    </div>
+                    <div class='body'>
+                        <p class='element'> {{body}} </p>
+                    </div>
+                </div>
+                {{/slideTitle}}
+                {{#slideStandard}}
+                <div class="slide">
+                    <div class='header'>
+                        <p class='element'> {{ header}} </p>
+                    </div>
+                    <div class='body'>
+                        <p class='element'> {{ body }}</p>
+                    </div>
+                </div>      
+                {{/slideStandard}}
+                </div>
+                </div>
+            {{/slides}}
         </div>
+    </div>
 
         <script src="javascripts/vendor/jquery-1.9.0.min.js"></script>
         <script src="javascripts/vendor/socket.io.js"></script>

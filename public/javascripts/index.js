@@ -34,8 +34,7 @@ var Slido = (function(window, _, io){
   dom = {},
   config = {
     SOCKET_PORT : 8889
-  },
-  socket = io.connect('http://' + window.location.hostname + ':' + config.SOCKET_PORT + '/presentation');
+  };
 
   function initialize(){
     setupSlidesDOM();
@@ -269,7 +268,25 @@ var Slido = (function(window, _, io){
       return _.sortBy(slides, function(slide){ return slide.subIndex})
     });
 
-    socket.emit('slide', {action: 'publish', slides: slideObjectsGroupedSorted});
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://' + window.location.host);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send(JSON.stringify(slideObjects));
+    xhr.onload = function(){
+        var res = JSON.parse(xhr.responseText);
+        if (res.status ==='ok'){
+          var message = document.querySelector('.message');
+          var anchor = message.querySelector('.messagecontent')
+          anchor.innerHTML = 'http://' + window.location.host +'/dist';
+          anchor.href =  'http://' + window.location.host +'/dist';
+          anchor.target = 'blank';
+        }else {
+
+        }
+    };
+    xhr.onerror = function(err) {
+      alert('Sorry! There are something wrong in the previous action');
+    }
     window.location.hash = '/overview';
   }
 

@@ -3,13 +3,13 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , path = require('path');
-
-
-var app = express();
+var express     = require('express')
+  , routes      = require('./routes')
+  , http        = require('http')
+  , path        = require('path')
+  , redis       = require('redis')
+  , redisClient = redis.createClient()
+  , app         = express();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 8080);
@@ -29,16 +29,16 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// Load modules
-['dist', 'plusview'].forEach(function(routeName) {
-  var routeObject = require('./routes/' + routeName);
-  routes[routeName] = routeObject[routeName];
+// Controller modules
+['index', 'dist', 'plusview'].forEach(function(routeName) {
+  require('./routes/' + routeName)(app, redisClient);
 });
 
-// Add routes
-app.get('/', routes.index);
-app.get('/dist', routes.dist);
-app.get('/plusview', routes.plusview);
+
+// DB settings
+redisClient.on("error", function (err) {
+  console.log("Error " + err);
+});
 
 
 http.createServer(app).listen(app.get('port'), function(){

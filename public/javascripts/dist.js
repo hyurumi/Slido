@@ -1,25 +1,7 @@
 var Slido = (function(window, _, io){
 
   'use strict';
-
-  var slidesData = [
-  {
-    template: 'title',
-    header: 'New Slide',
-    body: 'Genki Furumi'
-  },
-  {
-    template: 'standard',
-    header: 'Slide 1',
-    body: 'Wow, this presentation software is so cool!!'
-  },
-  {
-    template: 'standard',
-    header: 'Slide 2',
-    body: 'Wow, this presentation software is efficient!!'
-  }
-  ],
-  maxOfsubSlideLength = 1,
+  var maxOfsubSlideLength = 1,
   currentSlide=0,
   dom = {},
   config = {
@@ -41,32 +23,6 @@ var Slido = (function(window, _, io){
     dom.body = document.getElementsByTagName('body')[0];
     dom.wrapper = document.getElementById('wrapper');
     dom.slides = document.getElementById('slides');
-    
-    for( var v = 0, len1 = slidesData.length; v < len1; v++ ) {
-      var newSlidesPack = document.createElement('div');
-      newSlidesPack.classList.add('slides-pack');
-      dom.slides.appendChild(newSlidesPack);
-      var slide = slidesData[v];
-
-      var newSlideCompiled = _.template(
-        document.getElementById('slide-' + slide.template + '-template').innerHTML, 
-        {
-          header: slide.header,
-          body: slide.body
-        });
-
-      var newSlide = document.createElement('div');
-
-      newSlide.classList.add('slide-wrapper');
-      newSlide.innerHTML = newSlideCompiled;
-      newSlide.querySelector('.slide').setAttribute('data-slide-index', v);
-      newSlide.querySelector('.slide').setAttribute('data-slide-subindex', 0);
-      
-      newSlide.querySelector('.slide').classList.add('slide-' + slide.template);
-
-      newSlidesPack.appendChild(newSlide);
-    }
-
    
     layout();
   };
@@ -123,20 +79,8 @@ var Slido = (function(window, _, io){
     });
     dom.slides.style.width = window.innerWidth * (dom.slides.children.length + 1) + 'px';
     dom.slides.style.height = window.innerHeight * (maxOfsubSlideLength + 1) + 'px';
-
-    // if edit mode, control the slide side depending on the window size
-    if (dom.body.classList.contains('edit')) {
-      window.scrollTo(0,0);
-      var slideIndex = dom.body.getAttribute('data-slide-index'),
-      slideSubIndex = dom.body.getAttribute('data-slide-subindex');
-      var transform = 'scale(1.0, 1.0) translate( -' + slideIndex * window.innerWidth + 'px, -' + slideSubIndex * window.innerHeight +'px)';
-
-      dom.slides.style.WebkitTransform = transform;
-      dom.slides.style.MozTransform = transform;
-      dom.slides.style.msTransform = transform;
-      dom.slides.style.OTransform = transform;
-      dom.slides.style.transform = transform;
-    }
+    
+    dom.slides.style.display = 'block';
 
   }
 
