@@ -29,12 +29,13 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// load modules
+// Load modules
 ['dist', 'plusview'].forEach(function(routeName) {
   var routeObject = require('./routes/' + routeName);
   routes[routeName] = routeObject[routeName];
 });
 
+// Add routes
 app.get('/', routes.index);
 app.get('/dist', routes.dist);
 app.get('/plusview', routes.plusview);

@@ -13,7 +13,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <link rel="stylesheet" href="stylesheets/normalize.css">
-        <link rel="stylesheet" href="stylesheets/main.css">
+        <link rel="stylesheet" href="stylesheets/dist.css">
         <script src="javascripts/vendor/modernizr-2.6.2.min.js"></script>
         <script type="text/template" id="slide-title-template">
         <div class="slide">
@@ -56,8 +56,7 @@
         <script src="javascripts/vendor/socket.io.js"></script>
         <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
         <script src="http://underscorejs.org/underscore.js"></script>
-        <script src="javascripts/vendor/mustache.js"></script>
-        <script src="javascripts/main.js"></script>
+        <script src="javascripts/dist.js"></script>
         <script type="text/javascript">
           Slido.initialize();
         </script>
