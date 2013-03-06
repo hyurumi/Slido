@@ -258,6 +258,10 @@ var Slido = (function(window, _){
       //body
       slideObject.body = slide.querySelector('.body > *').innerHTML;
 
+      //tags
+      slideObject.tags = _.map(slide.querySelectorAll('.tag'), function(dom){ 
+        return dom.innerHTML.toLowerCase()
+      });
       //index
       slideObject.index = slide.getAttribute('data-slide-index');
       //subindex
