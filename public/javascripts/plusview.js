@@ -80,6 +80,16 @@ var Slido = (function(window, _, io){
     dom.slides.style.width = window.innerWidth * (dom.slides.children.length + 1) + 'px';
     dom.slides.style.height = window.innerHeight * (maxOfsubSlideLength + 1) + 'px';
     
+
+    window.scrollTo(0,0);
+    var transform = 'scale(1.0, 1.0) translate( -' + currentSlide * window.innerWidth + 'px, 0px)';
+
+    dom.slides.style.WebkitTransform = transform;
+    dom.slides.style.MozTransform = transform;
+    dom.slides.style.msTransform = transform;
+    dom.slides.style.OTransform = transform;
+    dom.slides.style.transform = transform;
+    
     dom.slides.style.display = 'block';
 
   }
