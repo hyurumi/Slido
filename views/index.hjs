@@ -42,16 +42,23 @@
         </script>
     </head>
     <body>
-        <div id="header">
+        <div id="header" class="bar">
             <a href="#/overview">Overview</a>
             <a href="#/publish">Publish</a>
             <div class="message"><a class="messagecontent"> </a></div>
         </div>
         <div id="wrapper">
-            <div id="slides" class='slides  clearfix'>
-                
-            </div>
+            <div id="slides" class='slides  clearfix'></div>
         </div>
+        <div id="footer" class="bar">
+            <div id="tags" class ='clearfix'>
+               <div class="tag japanese" draggable="true">Japanese</div>
+               <div class="tag french" draggable="true">French</div>
+               <div class="tag english" draggable="true">English</div>
+               <div class="tag novice" draggable="true">Novice</div>
+               <div class="tag expert" draggable="true">Expert</div>                
+           </div>
+       </div>
 
         <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
         <script src="http://underscorejs.org/underscore.js"></script>
