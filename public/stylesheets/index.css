@@ -220,12 +220,14 @@ textarea {
 .overview .slide .tags {
   display: block;
   position: absolute;
-  top: 0;
-  -webkit-transform: scale(3.333, 3.333);
+  top: 20%;
+  right: 5%;
+  -webkit-transform: scale(2.5, 2.5);
 }
 
 .overview .slide .tag{
   position: relative;
+  float: none;
   cursor: not-allowed;
 }
 
