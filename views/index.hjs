@@ -23,6 +23,7 @@
             <div class='body'>
                 <p class='element'><%= body %></p>
             </div>
+            <div class="tags"></div>
         </div>
         </script>
         <script type="text/template" id="slide-standard-template">
@@ -33,6 +34,7 @@
             <div class='body'>
                 <p class='element'><%= body %></p>
             </div>
+            <div class="tags"></div>
         </div>
         </script>
         <script type="text/template" id="slide-placeholder-template">
@@ -52,11 +54,11 @@
         </div>
         <div id="footer" class="bar">
             <div id="tags" class ='clearfix'>
-               <div class="tag japanese" draggable="true">Japanese</div>
-               <div class="tag french" draggable="true">French</div>
-               <div class="tag english" draggable="true">English</div>
-               <div class="tag novice" draggable="true">Novice</div>
-               <div class="tag expert" draggable="true">Expert</div>                
+               <div class="tag japanese" data-tagkind="japanese" draggable="true">Japanese</div>
+               <div class="tag french" data-tagkind="french" draggable="true">French</div>
+               <div class="tag english" data-tagkind="english" draggable="true">English</div>
+               <div class="tag novice" data-tagkind="novice" draggable="true">Novice</div>
+               <div class="tag expert" data-tagkind="expert" draggable="true">Expert</div>                
            </div>
        </div>
 

@@ -142,7 +142,7 @@ textarea {
   left: 0px;
 }
 
-#footer .tag {
+.tag {
   float: left;
   margin-top: 6px;
   margin-bottom: 6px;
@@ -178,6 +178,7 @@ textarea {
     float: left;
 }
 .slide {
+    position: relative;
     border: 1px solid #888;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -207,11 +208,26 @@ textarea {
    overflow-x: hidden; 
    overflow-y: hidden; 
 }
+.edit .slide .tags{
+  display: none;
+}
 
 
 /* ==========================================================================
    overview mode 
    ========================================================================== */
+
+.overview .slide .tags {
+  display: block;
+  position: absolute;
+  top: 0;
+  -webkit-transform: scale(3.333, 3.333);
+}
+
+.overview .slide .tag{
+  position: relative;
+  cursor: not-allowed;
+}
 
 .overview .slide-title:hover,
 .overview .slide-standard:hover {

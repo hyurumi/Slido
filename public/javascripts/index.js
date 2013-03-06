@@ -60,6 +60,7 @@ var Slido = (function(window, _){
     dom.body = document.getElementsByTagName('body')[0];
     dom.wrapper = document.getElementById('wrapper');
     dom.slides = document.getElementById('slides');
+    dom.tags = document.getElementById('tags');
     
     for( var v = 0, len1 = slidesData.length; v < len1; v++ ) {
       var newSlidesPack = document.createElement('div');
@@ -339,6 +340,18 @@ var Slido = (function(window, _){
       var slides = dom.slides.querySelectorAll('.slide-standard, .slide-title');
       toArray(slides).forEach(function(slide){
         slide.addEventListener('click', onSlideClick, false);
+        // add drop target to sub-slides
+        if (slide.getAttribute('data-slide-subindex') !== '0'){
+          slide.addEventListener('dragenter', cancel, false);
+          slide.addEventListener('dragover', cancel, false);
+          slide.addEventListener('drop', onTagDropped, false);
+          slide.addEventListener('dragend', onTagDropped, false);
+
+          var tags = slide.querySelectorAll('.tag');
+          _.each(_.toArray(tags), function(tag){
+            tag.addEventListener('click', onTagClick, false);
+          });
+        }
       });
 
       //add Eventlistener to slide-placehoder
@@ -346,20 +359,52 @@ var Slido = (function(window, _){
       toArray(slidePlaceholders).forEach(function(slide) {
         slide.addEventListener('click', onSlidePlaceholderClick, false);
       });
+
+      //add eventlisterer to tags
+      var tags = dom.tags.querySelectorAll('.tag');
+      toArray(tags).forEach(function(tag){
+        tag.addEventListener('dragstart', onTagDragStarted, false);
+      });
     }
+
     if (dom.body.classList.contains('edit')) {
       var elements = dom.slides.querySelectorAll('.element');
-    console.log(elements)
       toArray(elements).forEach(function(element) {
         element.addEventListener('dblclick', onElementDoubleClick, false);
       });
     }
+
   };
 
+  // --------------------------------------------------------------------//
+  // ------------------------- RELATED TO TAG ---------------------------//
+  // --------------------------------------------------------------------//
+
+  function addTagToSlide(tagkind, slide){
+    var tags = slide.querySelector('.tags');
+    var tagNameList = _.map(tags.querySelectorAll('.tag'), function(dom){ 
+      return dom.innerHTML.toLowerCase()
+    });
+    if (!_.contains(tagNameList, tagkind)){ 
+      var tagDom = document.createElement('div');
+      tagDom.classList.add('tag');
+      tagDom.classList.add(tagkind);
+      tagDom.innerHTML = capitaliseFirstLetter(tagkind);
+      tags.appendChild(tagDom); 
+    }
+
+    addEventListeners();
+  }
 
   // --------------------------------------------------------------------//
   // ----------------------------- EVENTS -------------------------------//
   // --------------------------------------------------------------------//
+  function cancel(e) {
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+    return false;
+  }
 
   /*
    * when slide is clicked, edit mode will be dispatched;
@@ -399,6 +444,31 @@ var Slido = (function(window, _){
     input.focus();
 
   }
+
+  // when tag is started to drag, information is set to tag attribution;
+  function onTagDragStarted(e){
+    e.dataTransfer.setData('tagkind', this.getAttribute('data-tagkind'));
+  }
+
+  // when tag is  dropped to slide, information is sent to slide;
+  function onTagDropped(e){
+    if (e.stopPropagation) {
+      e.stopPropagation(); // stops the browser from redirecting.
+    }
+    if (e.preventDefault) {
+      e.preventDefault(); 
+    }
+    addTagToSlide(e.dataTransfer.getData('tagkind'), this);
+  }
+
+
+
+  function onTagClick (e){
+    var tagsdom = this.parentNode;
+    tagsdom.removeChild(this);
+    e.stopPropagation();
+  }
+
   /*
    *  hash changed event
    */
@@ -418,6 +488,10 @@ var Slido = (function(window, _){
 
     return Array.prototype.slice.call( o );
 
+  }
+  function capitaliseFirstLetter(string)
+  {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
   // --------------------------------------------------------------------//
   // ----------------------------- APIS -------------------------------//
