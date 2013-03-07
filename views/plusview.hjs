@@ -43,8 +43,9 @@
         </div>
         <div id="wrapper">
              <div id="slides" class='slides  clearfix' style='display:none'>
-            {{#slides}}
+            {{#slidesGroup}}
                 <div class="slides-pack">
+                    {{#slides}}
                     <div class="slide-wrapper">
                 {{#slideTitle}}
                 <div class="slide slide-title">
@@ -53,6 +54,23 @@
                     </div>
                     <div class='body'>
                         <p class='element'> {{body}} </p>
+                    </div>
+                    <div class="tags">
+                    {{#tagEnglish}}
+                    <div class="tag" data-tag="english"></div>
+                    {{/tagEnglish}}
+                    {{#tagJapanese}}
+                    <div class="tag" data-tag="japanese"></div>
+                    {{/tagJapanese}}
+                    {{#tagFrench}}
+                    <div class="tag" data-tag="french"></div>
+                    {{/tagFrench}}
+                    {{#tagNovice}}
+                    <div class="tag" data-tag="novice"></div>
+                    {{/tagNovice}}
+                    {{#tagExpert}}
+                    <div class="tag" data-tag="expert"></div>
+                    {{/tagExpert}}
                     </div>
                 </div>
                 {{/slideTitle}}
@@ -67,8 +85,9 @@
                 </div>      
                 {{/slideStandard}}
                 </div>
+                    {{/slides}}
                 </div>
-            {{/slides}}
+            {{/slidesGroup}}
         </div>
         </div>
 

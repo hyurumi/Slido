@@ -99,8 +99,8 @@ var Slido = (function(window, _, io){
    */
   function addEventListeners(){
     window.addEventListener( 'resize', onWindowResize, false );
-    document.addEventListener('keyup', onDocumentType, false);
-    document.addEventListener('click', onDocumentClick, false);
+    //document.addEventListener('keyup', onDocumentType, false);
+    //document.addEventListener('click', onDocumentClick, false);
 
   };
 
@@ -129,9 +129,11 @@ var Slido = (function(window, _, io){
       }
     }
    }
+
    function onDocumentClick(){
     nextSlide();
    }
+
    function nextSlide(){
      if (currentSlide < dom.slides.children.length - 1){
        currentSlide++;
@@ -186,7 +188,6 @@ var Slido = (function(window, _, io){
   });
 
   socket.on('nextSlide', function(dataObject){
-    console.log('hoge')
     currentSlide = dataObject.currentSlide;
     nextSlide();
   });
