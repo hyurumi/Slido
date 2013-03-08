@@ -27,19 +27,19 @@ var plusview = function(app, redisClient){
 
       if (!acceptLanguage.match(/jp/)) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
-        return slide.tagJapanese;
+        return slide.subIndex !== '0' && slide.tagJapanese;
        });
       }
 
       if (!acceptLanguage.match(/en/)) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
-        return slide.tagEnglish;
+        return slide.subIndex !== '0' && slide.tagEnglish;
        });
       }
 
       if (acceptLanguage.match(/fr/)) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
-        return slide.tagFrench;
+        return slide.subIndex !== '0' && slide.tagFrench;
        });
       }
 
