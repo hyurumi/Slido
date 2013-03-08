@@ -25,21 +25,21 @@ var plusview = function(app, redisClient){
         };
       });
 
-      if (acceptLanguage.match(/jp/)) {
+      if (!acceptLanguage.match(/jp/)) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
-        return !(slide.tagEnglish || slide.tagFrench);
+        return slide.tagJapanese;
        });
       }
 
-      if (acceptLanguage.match(/en/)) {
+      if (!acceptLanguage.match(/en/)) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
-        return !(slide.tagJapanese || slide.tagFrench);
+        return slide.tagEnglish;
        });
       }
 
       if (acceptLanguage.match(/fr/)) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
-        return !(slide.tagJapanese || slide.tagEnglish);
+        return slide.tagFrench;
        });
       }
 
