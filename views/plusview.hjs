@@ -37,9 +37,14 @@
         </script>
     </head>
     <body>
-        <div id="header">
-            <a href="#/overview">Overview</a>
-            <a href="#/publish">Publish</a>
+        <div id="header" class="clearfix">
+            {{#slidesGroup}}
+            <div class="slide-links hidden">
+            {{#slides}}
+            <a class=""> {{header}} </a>
+            {{/slides}}
+            </div>
+            {{/slidesGroup}}
         </div>
         <div id="wrapper">
              <div id="slides" class='slides  clearfix' style='display:none'>

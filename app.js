@@ -57,10 +57,11 @@ http.createServer(app).listen(app.get('port'), function(){
 
 io.of("/presentation").on("connection", function(socket){
   var address = socket.handshake.address;
+  var currentSlide = 0; // TODO
   
   // if no emittion, will not be fired
-  socket.on("connect", function(dataObject){
-    console.log(address.address + " connect..");
+  socket.on("querySlide", function(){
+    socket.broadcast.emit('nextSlide', {currentSlide: currentSlide});
   });
 
   socket.on("nextSlide", function(dataObject){

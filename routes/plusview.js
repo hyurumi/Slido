@@ -3,8 +3,10 @@ var redis = require('redis')
 
 var plusview = function(app, redisClient){
     app.get('/plusview', function(req, res){
+    var acceptLanguage = req.headers['accept-language'];
+    console.log(acceptLanguage)
     redisClient.get('slides', function(err, data){
-
+ 
       var formattedSlidesList = _.map(JSON.parse(data), function(slide){
         return {
           header: slide.header,
@@ -12,8 +14,8 @@ var plusview = function(app, redisClient){
           index: slide.index,
           subIndex: slide.subIndex,
 
-          tagJapanese: _.contains(slide.tags, 'english'),
-          tagEnglish: _.contains(slide.tags, 'japanese'),
+          tagJapanese: _.contains(slide.tags, 'japanese'),
+          tagEnglish: _.contains(slide.tags, 'english'),
           tagFrench: _.contains(slide.tags, 'french'),
           tagNovice: _.contains(slide.tags, 'novice'),
           tagExpert: _.contains(slide.tags, 'expert'),
@@ -22,12 +24,32 @@ var plusview = function(app, redisClient){
           slideTitle: slide.template ==='title'            
         };
       });
+
+      if (acceptLanguage.match(/jp/)) {
+        formattedSlidesList = _.filter(formattedSlidesList, function(slide){
+        return !(slide.tagEnglish || slide.tagFrench);
+       });
+      }
+
+      if (acceptLanguage.match(/en/)) {
+        formattedSlidesList = _.filter(formattedSlidesList, function(slide){
+        return !(slide.tagJapanese || slide.tagFrench);
+       });
+      }
+
+      if (acceptLanguage.match(/fr/)) {
+        formattedSlidesList = _.filter(formattedSlidesList, function(slide){
+        return !(slide.tagJapanese || slide.tagEnglish);
+       });
+      }
+
+      console.log(formattedSlidesList);
       var groupedSlidesList = _.map(_.values(_.groupBy(formattedSlidesList, function(slide){
         return slide.index;
       })), function(slides){
         return {'slides': slides}
       });
-      console.log(groupedSlidesList);
+
       res.render('plusview', {slidesGroup: groupedSlidesList});
     });   
   });

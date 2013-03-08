@@ -7,11 +7,20 @@ var Slido = (function(window, _, io){
   config = {
     SOCKET_PORT : 9090
   },
+  isEventByPresenter = false,
   socket = io.connect('http://' + window.location.hostname + ':' + config.SOCKET_PORT + '/presentation');
 
   function initialize(){
     setupSlidesDOM();
     addEventListeners();
+    var routes = {
+      '/:index': setSlides,
+      '/:index/:subSlideTitle': setSlides,
+    };
+
+    var router = Router(routes);
+    router.setRoute('/0');
+    router.init();
   };
 
   /**
@@ -23,8 +32,18 @@ var Slido = (function(window, _, io){
     dom.body = document.getElementsByTagName('body')[0];
     dom.wrapper = document.getElementById('wrapper');
     dom.slides = document.getElementById('slides');
-   
+    dom.header = document.getElementById('header');
+    setupLinksInHeader();
     layout();
+  };
+
+  function setupLinksInHeader() {
+    var slideLinks = dom.header.querySelectorAll('.slide-links');
+    _.each(slideLinks, function(links, i){
+      _.each(links.children, function(link){
+        link.href = '#/' + i + "/" + urlEncode(link.innerHTML);
+      });
+    });
   };
 
 
@@ -82,6 +101,7 @@ var Slido = (function(window, _, io){
     
 
     window.scrollTo(0,0);
+    var currentSlide = (window.location.hash).split('/')[1];
     var transform = 'scale(1.0, 1.0) translate( -' + currentSlide * window.innerWidth + 'px, 0px)';
 
     dom.slides.style.WebkitTransform = transform;
@@ -94,12 +114,47 @@ var Slido = (function(window, _, io){
 
   }
 
+  function setSlides (index, subSlideTitle){
+    var subIndex = calculateSubIndexFromTitle(index, subSlideTitle); 
+    var transform = 'scale(1.0, 1.0) translate( -' + index * window.innerWidth + 'px, -' + subIndex * window.innerHeight + 'px)';
+    var transitionDuration = (isEventByPresenter)? '0.8s' : '0s';
+    isEventByPresenter = false;
+    dom.slides.style.WebkitTransitionDuration = transitionDuration;
+    dom.slides.style.MozTransitionDuration    = transitionDuration;
+    dom.slides.style.msTransitionDuration     = transitionDuration;
+    dom.slides.style.transitionDuration       = transitionDuration;
+
+    dom.slides.style.WebkitTransform = transform;
+    dom.slides.style.MozTransform = transform;
+    dom.slides.style.msTransform = transform;
+    dom.slides.style.transform = transform;
+
+    var slideLinks = dom.header.querySelectorAll('.slide-links');
+    _.each(_.toArray(slideLinks), function(link,i){
+      if (index === i.toString())
+        link.classList.remove('hidden');
+      else
+        link.classList.add('hidden');
+    });
+  }
+
+  function calculateSubIndexFromTitle(index, subSlideTitle) {
+    var subIndex = 0;
+    var slides = dom.slides.querySelectorAll('.slides-pack').item(index);
+    _.each(slides.children, function(slide, i){
+      if (urlEncode(slide.querySelector('.header>.element').innerHTML.trim()) === subSlideTitle) {
+        subIndex = i;
+      };
+    });
+    return subIndex;
+  }
+
+
   /*
    * Binds all event listeners.
    */
   function addEventListeners(){
     window.addEventListener( 'resize', onWindowResize, false );
-    //document.addEventListener('keyup', onDocumentType, false);
     //document.addEventListener('click', onDocumentClick, false);
 
   };
@@ -109,69 +164,6 @@ var Slido = (function(window, _, io){
   // ----------------------------- EVENTS -------------------------------//
   // --------------------------------------------------------------------//
 
-  /*
-   * when slide is clicked, slidesMove;
-   */
-   function onDocumentType(e){
-    switch(e.keyCode) {
-      case 13:  // Enter
-      case 32:  // Space
-      case 39: {// Right
-        nextSlide();
-        break;
-      }
-      case 37: {//left
-        previousSlide();
-        break;
-      }
-      default:{
-        console.log(e.keyCode)
-      }
-    }
-   }
-
-   function onDocumentClick(){
-    nextSlide();
-   }
-
-   function nextSlide(){
-     if (currentSlide < dom.slides.children.length - 1){
-       currentSlide++;
-     } else {
-       currentSlide = 0;
-     }
-     var transform = 'scale(1.0, 1.0) translate( -' + currentSlide * window.innerWidth + 'px, 0px)';
-     var transitionDuration = '0.8s';
-     dom.slides.style.WebkitTransitionDuration = transitionDuration;
-     dom.slides.style.MozTransitionDuration    = transitionDuration;
-     dom.slides.style.msTransitionDuration     = transitionDuration;
-     dom.slides.style.transitionDuration       = transitionDuration;
-
-     dom.slides.style.WebkitTransform = transform;
-     dom.slides.style.MozTransform = transform;
-     dom.slides.style.msTransform = transform;
-     dom.slides.style.transform = transform;
-
-   }
-   function previousSlide(){
-     if (currentSlide != 0){
-       currentSlide--;
-     } else {
-       currentSlide = dom.slides.children.length - 1;
-     }
-     var transform = 'scale(1.0, 1.0) translate( -' + currentSlide * window.innerWidth + 'px, 0px)';
-     var transitionDuration = '0.8s';
-     dom.slides.style.WebkitTransitionDuration = transitionDuration;
-     dom.slides.style.MozTransitionDuration    = transitionDuration;
-     dom.slides.style.msTransitionDuration     = transitionDuration;
-     dom.slides.style.transitionDuration       = transitionDuration;
-
-     dom.slides.style.WebkitTransform = transform;
-     dom.slides.style.MozTransform = transform;
-     dom.slides.style.msTransform = transform;
-     dom.slides.style.transform = transform;
-
-   }
 
   /*
    *  hash changed event
@@ -185,11 +177,12 @@ var Slido = (function(window, _, io){
   // --------------------------------------------------------------------//
   socket.on('connect', function(){
     console.log('open');
+    socket.emit('querySlide');
   });
 
   socket.on('nextSlide', function(dataObject){
-    currentSlide = dataObject.currentSlide;
-    nextSlide();
+    isEventByPresenter = true;
+    window.location.hash = '/' + dataObject.currentSlide;
   });
 
 
@@ -202,9 +195,14 @@ var Slido = (function(window, _, io){
    * Converts the target object to an array.
    */
   function toArray( o ) {
-
     return Array.prototype.slice.call( o );
+  }
 
+  function urlEncode (string) {
+    return encodeURIComponent(string.trim()).replace(/%/g, '-');
+  }
+  function urlDecode (string) {
+    return decodeURIComponent(string.replace(/-/g, '%'));
   }
   // --------------------------------------------------------------------//
   // ----------------------------- APIS -------------------------------//

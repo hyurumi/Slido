@@ -134,12 +134,12 @@ var Slido = (function(window, _, io){
    }
 
    function nextSlide(){
-     socket.emit('nextSlide',{currentSlide: currentSlide});
      if (currentSlide < dom.slides.children.length - 1){
        currentSlide++;
      } else {
        currentSlide = 0;
      }
+     socket.emit('nextSlide',{currentSlide: currentSlide});
      var transform = 'scale(1.0, 1.0) translate( -' + currentSlide * window.innerWidth + 'px, 0px)';
      var transitionDuration = '0.8s';
      dom.slides.style.WebkitTransitionDuration = transitionDuration;
@@ -159,6 +159,7 @@ var Slido = (function(window, _, io){
      } else {
        currentSlide = dom.slides.children.length - 1;
      }
+     socket.emit('nextSlide',{currentSlide: currentSlide});
      var transform = 'scale(1.0, 1.0) translate( -' + currentSlide * window.innerWidth + 'px, 0px)';
      var transitionDuration = '0.8s';
      dom.slides.style.WebkitTransitionDuration = transitionDuration;
