@@ -25,7 +25,7 @@ var plusview = function(app, redisClient){
         };
       });
 
-      if (!acceptLanguage.match(/jp/)) {
+      if (!acceptLanguage.match(/ja/) {
         formattedSlidesList = _.filter(formattedSlidesList, function(slide){
         return !slide.tagJapanese;
        });
